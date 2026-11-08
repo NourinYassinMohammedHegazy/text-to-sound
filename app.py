@@ -3,11 +3,11 @@ import edge_tts
 import asyncio
 import io
  
-st.title(" حول النص إلى صوت!")
+st.title(" Convert Text")
  
-text = st.text_area("اكتب النص هنا:")
+text = st.text_area("Enter your text here:")
  
-lang = st.selectbox("اختار اللغة:", ["عربي", "إنجليزي"])
+lang = st.selectbox("Choose a language:", ["عربي", "english"])
  
 VOICES = {
     "عربي": {
@@ -16,7 +16,7 @@ VOICES = {
         " جمال (رجل - مصر)":         "ar-EG-ShakirNeural",
         " سلمى (امرأة - مصر)":       "ar-EG-SalmaNeural",
     },
-    "إنجليزي": {
+    "english": {
         " غاي (رجل - أمريكا)":       "en-US-GuyNeural",
         " جيني (امرأة - أمريكا)":    "en-US-JennyNeural",
         " رايان (رجل - بريطانيا)":   "en-GB-RyanNeural",
@@ -24,7 +24,7 @@ VOICES = {
     },
 }
  
-voice_label = st.selectbox("اختار الصوت:", list(VOICES[lang].keys()))
+voice_label = st.selectbox("Choose a sound:", list(VOICES[lang].keys()))
 voice_id = VOICES[lang][voice_label]
  
 async def generate_audio(text, voice):
@@ -35,9 +35,9 @@ async def generate_audio(text, voice):
             audio_chunks.append(chunk["data"])
     return b"".join(audio_chunks)
  
-if st.button("تشغيل الصوت"):
+if st.button("Convert"):
     if text:
         audio_bytes = asyncio.run(generate_audio(text, voice_id))
         st.audio(audio_bytes, format="audio/mp3")
     else:
-        st.warning("اكتب نص أولاً! ")
+        st.warning("Enter a text first! ")
